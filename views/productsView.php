@@ -7,7 +7,7 @@ foreach($products as $p){
 }
 ?>
     <h1 class="principal_title">Inventari d'Actius IT</h1>
-    <div class="subtitle"><p>Gestió de recursos i emagatzematge</p></div>
+    <!-- <div class="subtitle"><p>Gestió de recursos i emagatzematge</p></div> -->
              <?php foreach( $products as $product ) : ?>
                 <div class="product-card-row mb-4">
                     <div class="product-accent"></div> <div class="product-content">
@@ -30,10 +30,10 @@ foreach($products as $p){
                             </div>
                         </div>
                         <div class="product-actions">
-                            <form action="index.php?action=delete" method="POST" onsubmit="return confirm('¿Seguro que quieres borrar este actiu?');"></form>
-                                <input type="hidden" name="id" value="<?= $product->getProductCode(); ?>">
-                                <button type="button" class="btn-delete-artistic">
-                                    <i class="bi bi-trash"></i> Eliminar
+                            <form action="index.php? action=delete" method="POST" onsubmit="return confirm('¿Seguro que quieres borrar este actiu?');">
+                                <input type="hidden" name="cod" value="<?= $product->getProductCode(); ?>">
+                                <button type="submit" class="btn-delete-artistic">
+                                    <i class="bi bi-trash">Eliminar</i> 
                                 </button>
                             </form>
                         </div>
@@ -41,7 +41,7 @@ foreach($products as $p){
                 </div>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
             <?php  endforeach; ?>
-                <nav aria-label="...">
+                <!-- <nav aria-label="...">
                     <ul class="pagination">
                         <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
                         <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -51,6 +51,6 @@ foreach($products as $p){
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
-                </nav>
+                </nav> -->
 
 <?php include "layouts/footer.php"?>

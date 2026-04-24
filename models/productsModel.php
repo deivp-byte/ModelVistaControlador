@@ -63,4 +63,7 @@ class Product {
         return $stmt->execute([$cod]);
 
     }
+    public static function edit($cod){
+        $db =DBConexion::connection();
+    }
 }

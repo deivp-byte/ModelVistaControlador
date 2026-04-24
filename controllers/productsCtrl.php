@@ -59,6 +59,16 @@ class ProductsCtrl {
     }
 
     public function edit() {return true;}
-    public function delete() {return true;}
+    public function delete() {
+        $deleteError=[];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $cod=$_POST['cod'];
+            if (Product::delete($cod)){
+                header("Location: index.php");
+            }else{
+                $deleteError[]="Error al eliminar el producte";
+            }
+        }
+    }
 }
 
