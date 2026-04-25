@@ -36,6 +36,11 @@ foreach($products as $p){
                                     <i class="bi bi-trash">Eliminar</i> 
                                 </button>
                             </form>
+                            <div class="product-actions">
+                                <a href="index.php?action=edit&cod=<?= $product->getProductCode(); ?>" class="btn-edit-artistic">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

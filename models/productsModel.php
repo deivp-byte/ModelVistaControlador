@@ -36,7 +36,9 @@ class Product {
     public function getProductName() {
         return $this->name;
     }
-
+    public function getProductCategory(){
+        return $this->category;
+    }
     public function getProductCode() {
         return $this->cod;
     }
@@ -48,7 +50,19 @@ class Product {
     public function getProductPvp() {
         return $this->pvp;
     }
+    public static function find($cod){
+        $db=DBConexion::connection();
+        $sql="SELECT * FROM products WHERE cod=?";
+        $stmt= $db->prepare($sql);
+        $stmt->execute([$cod]);
 
+        $result=$stmt->get_result();
+
+        if ($row=$result->fetch_assoc()){
+            return  new Product($row);
+        }
+        return null;
+    }
     public static function save($short_name, $pvp, $nombre, $category) {
         $db = DBConexion::connection();
         
@@ -63,7 +77,10 @@ class Product {
         return $stmt->execute([$cod]);
 
     }
-    public static function edit($cod){
+    public static function edit($nombre,$short_name,$pvp,$category,$cod){
         $db =DBConexion::connection();
+        $sql="UPDATE products SET nombre=?, short_name=?, pvp=?, category=?";
+        $stmt=$db->prepare($sql);
+        return $stmt->execute([$nombre,$short_name,$pvp,$category,$cod]);
     }
 }

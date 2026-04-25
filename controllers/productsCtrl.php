@@ -58,7 +58,31 @@ class ProductsCtrl {
         require_once "views/addProductView.php";
     }
 
-    public function edit() {return true;}
+    public function edit() {
+        $errors=[];
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $cod=$_POST['cod'];
+            $nombre=$_POST['nombre'];
+            $short_name=$_POST['short_name'];
+            $pvp=$_POST['pvp'];
+            $category=$_POST['category'];
+
+            if (Product::edit($cod,$nombre,$short_name,$pvp,$category)){
+                header("Location: index.php");
+                exit;
+             
+            }else{
+                $errors[]="No s'ha pogut actualitzar el producte.";
+            }
+        }
+        if(isset($_GET['cod'])){
+            $cod = $_GET['cod'];
+            $product =Product::find($cod);
+            if($product){
+                require_once "views/addProductView.php";
+            }
+        }
+    }
     public function delete() {
         $deleteError=[];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

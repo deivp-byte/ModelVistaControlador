@@ -1,6 +1,6 @@
 <?php  include "layouts/header.php";?>
 <link rel="stylesheet" href="assets/style.css">
-<div class="principal_title">Creació de nou actiu</div>
+<div class="principal_title"><?=  isset($product)? "Editar Actiu" : "Creació de nou actiu" ?></div>
         <div class="add_Product_Body artistic-card">
             <div class="card-header-artistic">
                 <span class="icon">📁</span>
@@ -11,6 +11,7 @@
             <form action="" method="POST" class="artistic-form">
                 <div class="form-floating mb-4">
                     <input type="text" name="nombre" 
+                        value="<?= isset($product) ? $product->getProductName() : '' ?>" 
                         class="form-control artistic-input <?php echo isset($errors['nombre']) ? 'is-invalid' : ''; ?>" 
                         id="nameInput" placeholder="Pablito" required>
                     <label for="nameInput">Name</label>
@@ -18,6 +19,7 @@
 
                 <div class="form-floating mb-4">
                     <input type="text" name="short_name" 
+                        value="<?= isset($product) ? $product->getProductShortName() : '' ?>" 
                         class="form-control artistic-input <?php echo isset($errors['short']) ? 'is-invalid' : ''; ?>" 
                         id="ShortNameInput" placeholder="Carcasa" required>
                     <label for="ShortNameInput">Short Name</label>
@@ -25,6 +27,7 @@
 
                 <div class="form-floating mb-4">
                     <input type="text" name="category" 
+                        value="<?= isset($product) ? $product-> getProductCategory() : '' ?>" 
                         class="form-control artistic-input <?php echo isset($errors['category']) ? 'is-invalid' : ''; ?>" 
                         id="categoryInput" placeholder="Plano" required>
                     <label for="categoryInput">Category</label>
@@ -33,6 +36,7 @@
                 <div class="input-group mb-4 has-validation">
                     <span class="input-group-text artistic-addon">$</span>
                     <input type="number" step="0.01" 
+                        value="<?= isset($product) ? $product-> getProductPvp() : '' ?>"
                         class="form-control artistic-input <?php echo isset($errors['Pvp']) ? 'is-invalid' : ''; ?>" 
                         name="pvp" id="PVPInput" placeholder="0.00" required>
                     <span class="input-group-text artistic-addon">.00</span>
