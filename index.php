@@ -20,8 +20,11 @@ switch ($action){
     case 'delete':
         $controller->delete();
         break;
+    case 'list':
+        $controller ->index();
+        break;
     default:
-        $controller->index();
+        $controller->dashboard();
         break;
 
 }

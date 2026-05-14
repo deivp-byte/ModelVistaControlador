@@ -32,7 +32,13 @@ class Product {
 
         return $products;
     }
-
+    public static function getTotalBalance(){
+        $db =DBConexion::connection();
+        $sql = "SELECT SUM(pvp) as total FROM products";
+        $result= $db->query($sql);
+        $row = $result->fetch_assoc();
+        return $row['total'] ?? 0 ;
+    }
     public function getProductName() {
         return $this->name;
     }

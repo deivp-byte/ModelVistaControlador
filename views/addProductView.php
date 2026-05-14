@@ -47,7 +47,7 @@
                 </div>
 
                 <button type="submit" class="btn-submit-artistic">
-                    <span>Enviar dades</span>
+                    <span><?=  isset($product)? "Guardar dades" : "Enviar dades"?></span>
                     <i class="bi bi-send-fill"></i>
                 </button>
             </form>

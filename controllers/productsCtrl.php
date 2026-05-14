@@ -4,12 +4,25 @@
 require_once "models/productsModel.php";
 
 class ProductsCtrl {
+    //funcio per mostrar al dashboard
+    public function dashboard(){
+        $products = Product::getAllProducts();
+        $balance = Product::getTotalBalance();
+
+        $namesToChart=[];
+        $pvpChart=[];
+
+        foreach ($products as $p){
+            $namesToChart[]= $p->getProductName();
+            $pvpChart[]=$p->getProductPvp();
+        }
+        require_once "views/dashboard.php";
+    }
     // Acció per defecte: Llistar
     public function index() {
         $products = Product::getAllProducts();
         require_once "views/productsView.php";
     }
-
     // Acció de crear
     public function create() {
         // Si ens arriben dades per POST, les guardem

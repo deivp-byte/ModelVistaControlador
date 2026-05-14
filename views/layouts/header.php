@@ -6,6 +6,7 @@
     <title>IT Asset Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="assets/style.css">
     <style>
         :root { --it-primary: #2c3e50; --it-accent: #3498db; }
@@ -59,6 +60,11 @@
                 <span class="fs-5 fw-bold">IT ASSET MGMT</span>
             </div>
             <ul class="nav flex-column mt-2">
+                <li class="nav-item">
+                    <a class="nav-link <?= (!isset($_GET['action']) || $_GET['action'] == 'dashboard') ? 'active' : '' ?>" href="index.php?action=dashboard">
+                        <i class="bi bi-pc-circle me-2"></i> Inici
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link <?= (!isset($_GET['action']) || $_GET['action'] == 'list') ? 'active' : '' ?>" href="index.php">
                         <i class="bi bi-pc-display me-2"></i> Inventari Actius
