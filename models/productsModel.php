@@ -39,6 +39,19 @@ class Product {
         $row = $result->fetch_assoc();
         return $row['total'] ?? 0 ;
     }
+    public static function getMonitorShortName(){
+        $monitor=[];
+        $db =DBConexion::connection();
+        $sql="SELECT * FROM products WHERE short_name LIKE 'Monitor%'";
+        $result= $db->query($sql);
+        if ($result){
+            while ($row = $result->fetch_assoc()) {
+            $product = new Product($row);
+            $monitor[] = $product;
+            }
+        }
+        return $monitor;
+    }
     public function getProductName() {
         return $this->name;
     }

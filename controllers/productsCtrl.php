@@ -8,10 +8,10 @@ class ProductsCtrl {
     public function dashboard(){
         $products = Product::getAllProducts();
         $balance = Product::getTotalBalance();
+        $monitor = Product::getMonitorShortName();
 
         $namesToChart=[];
         $pvpChart=[];
-
         foreach ($products as $p){
             $namesToChart[]= $p->getProductName();
             $pvpChart[]=$p->getProductPvp();
