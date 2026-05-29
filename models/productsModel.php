@@ -6,9 +6,8 @@ class Product {
     protected $name;
     protected $cod;
     protected $short_name;
-
-    protected $category;
     protected $pvp;
+    protected $categoryid;
     // private $db;
 
     public function __construct($row) {
@@ -16,13 +15,14 @@ class Product {
         $this->short_name = $row["short_name"];
         $this->cod = $row["cod"];
         $this->pvp = $row["pvp"];
-        $this ->category = $row["category"];
+        $this->categoryid=$row["category_id"];
         // $this->db = DBConexion::connection();
     }
 
+
     public static function getAllProducts() {
         $db = DBConexion::connection();
-        $data = $db->query("SELECT cod, short_name, nombre, pvp, category FROM products");
+        $data = $db->query("SELECT cod, short_name, nombre, pvp, category_id FROM products");
         $products = array();
 
         while ( $row = $data->fetch_assoc() ) {
@@ -56,7 +56,7 @@ class Product {
         return $this->name;
     }
     public function getProductCategory(){
-        return $this->category;
+        return $this->categoryid;
     }
     public function getProductCode() {
         return $this->cod;
@@ -65,7 +65,6 @@ class Product {
     public function getProductShortName() {
         return $this->short_name;
     }
-
     public function getProductPvp() {
         return $this->pvp;
     }
@@ -82,12 +81,12 @@ class Product {
         }
         return null;
     }
-    public static function save($short_name, $pvp, $nombre, $category) {
+    public static function save($short_name, $pvp, $nombre, $categoryid) {
         $db = DBConexion::connection();
         
-        $sql = "INSERT INTO products (short_name, pvp, nombre, category) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO products (short_name, pvp, nombre, category_id) VALUES (?, ?, ?,?)";
         $stmt = $db->prepare($sql);
-        return $stmt->execute([$short_name, $pvp, $nombre, $category]);
+        return $stmt->execute([$short_name, $pvp, $nombre, $categoryid]);
     }
     public static function delete($cod){
         $db = DBConexion::connection();
@@ -96,10 +95,31 @@ class Product {
         return $stmt->execute([$cod]);
 
     }
-    public static function edit($nombre,$short_name,$pvp,$category,$cod){
+    public static function edit($nombre,$short_name,$pvp,$cod, $categoryid){
         $db =DBConexion::connection();
-        $sql="UPDATE products SET nombre=?, short_name=?, pvp=?, category=?";
+        $sql="UPDATE products SET nombre=?, short_name=?, pvp=? category_id=?";
         $stmt=$db->prepare($sql);
-        return $stmt->execute([$nombre,$short_name,$pvp,$category,$cod]);
+        return $stmt->execute([$nombre,$short_name,$pvp,$cod,$categoryid]);
+    }
+    public static function findByCategoryName($search){
+        $db = DBConexion::connection();
+        // Usamos INNER JOIN para buscar en la tabla 'category' por el campo 'name'
+        // El operador LIKE con '%' permite coincidencias parciales (ej: 'serv' encontrará 'Servidors')
+        $sql = "SELECT p.* FROM products p 
+                INNER JOIN category c ON p.category_id = c.id 
+                WHERE c.name LIKE ?";
+                
+        $stmt = $db->prepare($sql);
+        $searchTerm= "%" . $search . "%";
+        $stmt->execute([$searchTerm]);
+        $result = $stmt -> get_result();
+        $products = array();
+        while ($row = $result->fetch_assoc()) {
+        
+        $product = new Product($row);
+        $products[] = $product;
+        }
+
+        return $products;
     }
 }

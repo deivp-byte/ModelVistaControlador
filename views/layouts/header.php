@@ -8,87 +8,111 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="assets/style.css">
+    
     <style>
-        :root { --it-primary: #2c3e50; --it-accent: #3498db; }
-        body { background-color: #f8f9fa; }
-        .sidebar { min-height: 100vh; background: var(--it-primary); color: white; }
-        .sidebar .nav-link { color: #bdc3c7; border-radius: 5px; margin-bottom: 5px; }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active { background: var(--it-accent); color: white; }
-        .main-content { background: #f8f9fa; min-height: 100vh; }
+        :root { 
+            --it-primary: #1e293b; /* Un azul oscuro/pizarra moderno */
+            --it-accent: #0d6efd;  /* Azul Bootstrap eléctrico */
+            --sidebar-bg: #ffffff; /* Fondo blanco limpio para un look moderno */
+        }
         
+        body { 
+            background-color: #f8fafc; /* Gris ligeramente azulado muy limpio */
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        /* Sidebar Modernizada */
+        .sidebar { 
+            min-height: 100vh; 
+            background: var(--sidebar-bg); 
+            border-right: 1px solid #e2e8f0; /* Línea divisoria sutil en vez de sombra pesada */
+        }
+        
+        /* Enlaces del Menú */
+        .sidebar .nav-link { 
+            color: #64748b; /* Gris texto elegante */
+            font-weight: 500;
+            border-radius: 8px; 
+            margin-bottom: 6px; 
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* Efecto Hover */
+        .sidebar .nav-link:hover { 
+            background-color: #f1f5f9; 
+            color: var(--it-primary);
+            transform: translateX(3px); /* Pequeño desplazamiento animado */
+        }
+        
+        /* Enlace Activo */
+        .sidebar .nav-link.active { 
+            background-color: #e0f2fe; /* Azul cielo muy suave de fondo */
+            color: #0369a1;            /* Texto azul oscuro contrastado */
+            font-weight: 600;
+        }
+        
+        /* Iconos del menú */
+        .sidebar .nav-link i {
+            font-size: 1.1rem;
+            vertical-align: middle;
+        }
+
+        .main-content { 
+            background: #f8fafc; 
+            min-height: 100vh; 
+        }
     </style>
 </head>
 <body>
-    <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid" style="background-color: #2c3e50;" >
-    <a class="navbar-brand" href="#">IT</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav> -->
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse p-3 shadow">
-            <div class="d-flex align-items-center mb-4 px-2">
-                <i class="bi bi-cpu-fill fs-3 text-info me-2"></i>
-                <span class="fs-5 fw-bold">IT ASSET MGMT</span>
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse p-4">
+            <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                <div class="bg-primary bg-gradient text-white d-flex align-items-center justify-content-center rounded-3 me-2" style="width: 40px; height: 40px;">
+                    <i class="bi bi-cpu-fill fs-5"></i>
+                </div>
+                <div>
+                    <span class="fs-6 fw-bold text-dark d-block" style="letter-spacing: -0.5px;">IT Inventari</span>
+                    <small class="text-muted" style="font-size: 0.75rem;">Asset Manager</small>
+                </div>
             </div>
-            <ul class="nav flex-column mt-2">
+            
+            <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link <?= (!isset($_GET['action']) || $_GET['action'] == 'dashboard') ? 'active' : '' ?>" href="index.php?action=dashboard">
-                        <i class="bi bi-pc-circle me-2"></i> Inici
+                        <i class="bi bi-grid-1x2-fill me-3"></i><span>Inici</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= (!isset($_GET['action']) || $_GET['action'] == 'list') ? 'active' : '' ?>" href="index.php">
-                        <i class="bi bi-pc-display me-2"></i> Inventari Actius
+                    <a class="nav-link <?= (!isset($_GET['action']) || $_GET['action'] == 'list') ? 'active' : '' ?>" href="index.php?action=list">
+                        <i class="bi bi-hdd-network-fill me-3"></i><span>Inventari Actius</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] == 'create') ? 'active' : '' ?>" href="index.php?action=create">
-                        <i class="bi bi-plus-circle me-2"></i> Nou Actiu
+                        <i class="bi bi-plus-circle-fill me-3"></i><span>Nou Actiu</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] == 'createCategory') ? 'active' : '' ?>" href="index.php?action=createCategory">
+                        <i class="bi bi-plus-circle-fill me-3"></i><span>Nova Categoria</span>
                     </a>
                 </li>
             </ul>
         </nav>
+
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-        <div class="container-fluid pt-3">
-    <?php if (isset($_SESSION['message'])): ?>
-        <div class="alert alert-<?= $_SESSION['message_type'] ?> alert-dismissible fade show shadow-sm" role="alert">
-            <i class="bi <?= $_SESSION['message_type'] == 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle' ?> me-2"></i>
-            <?= $_SESSION['message'] ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php 
-            // Crucial: Esborrem el missatge perquè no surti més
-            unset($_SESSION['message']); 
-            unset($_SESSION['message_type']); 
-        ?>
-    <?php endif; ?>
-</div>
+        <div class="container-fluid pt-4">
+            
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="alert alert-<?= $_SESSION['message_type'] ?> alert-dismissible fade show border-0 shadow-sm content-alert" role="alert" style="border-radius: 10px;">
+                <i class="bi <?= $_SESSION['message_type'] == 'success' ? 'bi-check-circle-fill text-success' : 'bi-exclamation-triangle-fill text-danger' ?> me-2"></i>
+                <span class="text-dark fw-medium"><?= $_SESSION['message'] ?></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php 
+                unset($_SESSION['message']); 
+                unset($_SESSION['message_type']); 
+            ?>
+        <?php endif; ?>

@@ -26,11 +26,36 @@
                 </div>
 
                 <div class="form-floating mb-4">
-                    <input type="text" name="category" 
-                        value="<?= isset($product) ? $product-> getProductCategory() : '' ?>" 
-                        class="form-control artistic-input <?php echo isset($errors['category']) ? 'is-invalid' : ''; ?>" 
-                        id="categoryInput" placeholder="Plano" required>
+                    <select name="category" 
+                            class="form-select artistic-input <?php echo isset($errors['category']) ? 'is-invalid' : ''; ?>" 
+                            id="categoryInput" 
+                            required>
+                        
+                        <option value="" disabled <?= !isset($product) ? 'selected' : '' ?>>Selecciona una categoria...</option>
+                        
+                        <?php if (!empty($categoriesList)): ?>
+                            <?php foreach ($categoriesList as $cat): ?>
+                                <?php 
+                                    // Comprobamos cuál debe estar seleccionada (en caso de edición)
+                                    $selected = '';
+                                    if (isset($product) && $product->getProductCategory() == $cat->getCategoryId()) {
+                                        $selected = 'selected';
+                                    }
+                                ?>
+                                <option value="<?= $cat->getCategoryId() ?>" <?= $selected ?>>
+                                    <?= htmlspecialchars($cat->getCategoryName()) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                    </select>
                     <label for="categoryInput">Category</label>
+                    
+                    <?php if (isset($errors['category'])): ?>
+                        <div class="invalid-feedback">
+                            <?= $errors['category'] ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="input-group mb-4 has-validation">

@@ -58,29 +58,65 @@
         <div class="col-xl-6 col-lg-6 col-md-12">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h6 class="text-muted text-uppercase small fw-bold mb-3">Llistat de Monitors</h6>
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                        <div>
+                            <h6 class="text-muted text-uppercase small fw-bold mb-1">Cercador de Productes per Categoria</h6>
+                            <p class="text-muted small mb-0">Introdueix el nom d'una categoria per filtrar els actius</p>
+                        </div>
+                        
+                        <form action="index.php" method="GET" class="d-flex align-items-center gap-2" style="max-width: 350px; width: 100%;">
+                            <input type="hidden" name="action" value="dashboard"> 
+                            
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted" style="border-radius: 8px 0 0 8px;">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" 
+                                    name="search_category" 
+                                    class="form-control bg-light border-start-0 ps-1" 
+                                    placeholder="Ex: Portàtils, Servidors..." 
+                                    value="<?= isset($_GET['search_category']) ? htmlspecialchars($_GET['search_category']) : '' ?>"
+                                    style="border-radius: 0 8px 8px 0; font-size: 0.9rem;">
+                                
+                                <?php if (!empty($_GET['search_category'])): ?>
+                                    <a href="index.php?action=dashboard" class="btn btn-light border d-flex align-items-center justify-content-center" title="Netejar filtre">
+                                        <i class="bi bi-x-lg text-secondary"></i>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm px-3 py-2 fw-semibold" style="border-radius: 8px;">
+                                Filtrar
+                            </button>
+                        </form>
+                    </div>
                     
                     <?php if (!empty($monitor)): ?>
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th scope="col" class="small text-uppercase fw-bold text-muted">Codi (Short)</th>
+                                        <th scope="col" class="small text-uppercase fw-bold text-muted" style="padding: 1rem 0.75rem;">Codi (Short)</th>
                                         <th scope="col" class="small text-uppercase fw-bold text-muted">Nom del Producte</th>
-                                        <th scope="col" class="small text-uppercase fw-bold text-muted text-end">PVP</th>
+                                        <th scope="col" class="small text-uppercase fw-bold text-muted">Categoria</th>
+                                        <th scope="col" class="small text-uppercase fw-bold text-muted text-end" style="padding: 1rem 0.75rem;">PVP</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($monitor as $monitores): ?>
                                         <tr>
-                                            <td class="fw-medium text-secondary">
-                                                <!-- Usamos tu función existente para el nombre corto -->
+                                            <td class="fw-medium text-secondary" style="padding: 0.85rem 0.75rem;">
                                                 <code><?php echo htmlspecialchars($monitores->getProductShortName()); ?></code>
                                             </td>
                                             <td class="fw-bold text-dark">
                                                 <?php echo htmlspecialchars($monitores->getProductName()); ?>
                                             </td>
-                                            <td class="text-end fw-bold text-success">
+                                            <td>
+                                                <span class="badge bg-secondary bg-opacity-10 text-secondary border px-2.5 py-1.5" style="border-radius: 6px; font-weight: 500;">
+                                                    <i class="bi bi-tag-fill me-1 text-muted"></i>
+                                                    <?php echo htmlspecialchars($monitores->getProductCategory()); ?>
+                                                </span>
+                                            </td>
+                                            <td class="text-end fw-bold text-success" style="padding: 0.85rem 0.75rem;">
                                                 <?php echo number_format($monitores->getProductPvp(), 2, ',', '.'); ?> €
                                             </td>
                                         </tr>
@@ -89,8 +125,16 @@
                             </table>
                         </div>
                     <?php else: ?>
-                        <div class="text-center py-4">
-                            <p class="text-muted small mb-0">No s'han trobat monitors a la base de dades.</p>
+                        <div class="text-center py-5">
+                            <div class="text-muted mb-3">
+                                <i class="bi bi-folder-x fs-1 opacity-50"></i>
+                            </div>
+                            <p class="text-secondary fw-medium mb-1">No s'han trobat actius</p>
+                            <p class="text-muted small mb-0">
+                                <?= !empty($_GET['search_category']) 
+                                    ? "Cap coincidència amb la categoria '" . htmlspecialchars($_GET['search_category']) . "'." 
+                                    : "No hi ha productes disponibles a l'inventari." ?>
+                            </p>
                         </div>
                     <?php endif; ?>
                 </div>

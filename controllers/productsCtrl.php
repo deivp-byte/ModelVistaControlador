@@ -2,14 +2,23 @@
 
 // Call model
 require_once "models/productsModel.php";
+require_once "models/categoryModel.php";
 
 class ProductsCtrl {
     //funcio per mostrar al dashboard
+
     public function dashboard(){
         $products = Product::getAllProducts();
         $balance = Product::getTotalBalance();
         $monitor = Product::getMonitorShortName();
+        $search = trim($_GET['search_category'] ?? '');
 
+        if ($search !== ''){
+            $monitor = Product::findByCategoryName($search);
+        }
+        else{
+            $monitor = Product::getAllProducts();
+        }
         $namesToChart=[];
         $pvpChart=[];
         foreach ($products as $p){
@@ -66,7 +75,7 @@ class ProductsCtrl {
             }
 
         }
-        
+        $categoriesList= Category::getAllCategories();
         // Si no és POST (és GET), mostrem el formulari de creació
         require_once "views/addProductView.php";
     }
