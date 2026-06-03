@@ -7,27 +7,111 @@ La taula que es consulta es pot crear amb l'script:
 -- Crear la base de dades si no existeix
 CREATE DATABASE IF NOT EXISTS `products`;
 
--- Seleccionar la base de dades per a les operacions següents
-USE `products`;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- Ara ja pots crear la taula
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `products`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `category`
+--
+
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `category`
+--
+
+INSERT INTO `category` (`id`, `name`) VALUES
+(1, 'Monitor'),
+(2, 'Teclado'),
+(3, 'Tablet');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `products`
+--
+
 CREATE TABLE `products` (
-  `cod` int(11) AUTO_INCREMENT NOT NULL,  
+  `cod` int(11) NOT NULL,
   `short_name` varchar(20) NOT NULL,
   `pvp` decimal(5,2) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `category` varchar(64) NULL,
-  PRIMARY KEY (`cod`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `category_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `products`
+--
+
+INSERT INTO `products` (`cod`, `short_name`, `pvp`, `nombre`, `category_id`) VALUES
+(1, 'Monitor', 400.00, 'Dell 21 full HD', 1),
+(2, 'Teclado', 9.99, 'Teclado inalámbrico Logitech', 2),
+(3, 'iPad Pro', 900.00, 'Apple iPad Pro 9', 3),
+(11, 'Monitor LG', 100.00, 'Monitor LG 4k', 1),
+(12, 'Samsung', 100.00, 'Samsung pad', 3);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`cod`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `products`
+--
+ALTER TABLE `products`
+  MODIFY `cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+COMMIT;
 
 
 Per afegir productes a la taula ```products```  pots utilitzar l'script:
 
 ```
-INSERT INTO `products` (`cod`, `short_name`, `pvp`, `nombre`) VALUES
-(1, 'Monitor', '400.00', 'Dell 21 full HD'),
-(2, 'Teclado', '9.99', 'Teclado inalámbrico Logitech'),
-(3, 'iPad Pro', '900.00', 'Apple iPad Pro 9');
+INSERT INTO `products` (`cod`, `short_name`, `pvp`, `nombre`,`category_id`) VALUES
+(1, 'Monitor', '400.00', 'Dell 21 full HD',1),
+(2, 'Teclado', '9.99', 'Teclado inalámbrico Logitech',2),
+(3, 'iPad Pro', '900.00', 'Apple iPad Pro 9',3);
 ```
 
 ## Resum patró MVC
